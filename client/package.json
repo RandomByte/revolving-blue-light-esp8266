@@ -1,0 +1,26 @@
+{
+  "name": "revolving-blue-light-esp8266",
+  "version": "0.0.1",
+  "description": "Client side of the revolving-blue-light-esp8266 project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RandomByte/revolving-blue-light-esp8266.git"
+  },
+  "author": "Merlin Beutlberger",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RandomByte/revolving-blue-light-esp8266/issues"
+  },
+  "homepage": "https://github.com/RandomByte/revolving-blue-light-esp8266#readme",
+  "dependencies": {
+    "serialport": "^6.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.18.2",
+    "eslint-config-google": "^0.9.1"
+  }
+}
