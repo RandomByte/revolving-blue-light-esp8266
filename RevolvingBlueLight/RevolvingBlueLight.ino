@@ -10,6 +10,14 @@ const int outPinLed = D2;
 const int pinScl = D3;
 const int pinSda = D4;
 
+const int comOn = 73; // "I"
+const int comOff = 79; // "O"
+const int comFlash = 70; // "F"
+const int comTemp = 84; // "T"
+
+const unsigned long maxRunTime = 12000; // 2 min
+unsigned long startTime = 0;
+int incomingByte = 0;
 
 void setup() {
   pinMode(outPinMotor, OUTPUT);
@@ -23,32 +31,62 @@ void setup() {
       Serial.println("Could not find a valid BME280 sensor, check wiring!");
       while (1);
   }
-  
-  Serial.println("-- Default Test --");
-  Serial.println();
+  Serial.println("A");
 }
 
 void loop() {
+  if(Serial.available() > 0) {
+    // read the incoming byte:
+    incomingByte = Serial.read();
+        
+      switch(incomingByte) {
+        case comOn:
+          on();
+          Serial.println("A");
+          delay(300); // rate limiting
+          break;
+        case comOff:
+          off();
+          Serial.println("A");
+          delay(300); // rate limiting
+          break;
+        case comFlash:
+          on();
+          delay(1000);
+          off();
+          Serial.println("A");
+          delay(300); // rate limiting
+          break;
+        case comTemp:
+          sendTemp();
+          Serial.println("A");
+          delay(300); // rate limiting
+          break;
+    }
+  }
+  if (startTime != 0 && (millis() - startTime) > maxRunTime) {
+    off();
+  }
+  delay(200);
+}
+
+void on() {
+  startTime = millis();
   digitalWrite(outPinMotor, HIGH);
   digitalWrite(outPinLed, HIGH);
-  delay(2000);
-  printValues();
-  delay(2000);
+}
+
+void off() {
+  if (millis() - startTime < 500) { // rate limiting
+    delay(500);
+  }
+  startTime = 0;
   digitalWrite(outPinMotor, LOW);
   digitalWrite(outPinLed, LOW);
-  delay(6000);
 }
 
-
-
-void printValues() {
-    Serial.print("Temperature = ");
-    Serial.print(bme.readTemperature());
-    Serial.println(" *C");
-  
-    Serial.print("Humidity = ");
-    Serial.print(bme.readHumidity());
-    Serial.println(" %");
-
-    Serial.println();
+void sendTemp() {
+  Serial.println(bme.readTemperature());
+  Serial.println(bme.readHumidity());
 }
+
