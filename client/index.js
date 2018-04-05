@@ -52,6 +52,14 @@ async function flash() {
 	await done;
 }
 
+async function syn() {
+	const done = new Promise((resolve, reject) => {
+		awaitingAck.push(resolve);
+	});
+	port.write("S");
+	await done;
+}
+
 async function temp() {
 	const dataReceived = Promise.all([
 		new Promise((resolve, reject) => {
@@ -106,6 +114,9 @@ checkReady().then(() => {
 				break;
 			case "F":
 				flash().then(() => console.log("Done"));
+				break;
+			case "S":
+				syn().then(() => console.log("Ack"));
 				break;
 			case "T":
 				temp().then((data) => console.log(data));

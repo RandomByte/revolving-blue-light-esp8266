@@ -14,8 +14,9 @@ const int comOn = 73; // "I"
 const int comOff = 79; // "O"
 const int comFlash = 70; // "F"
 const int comTemp = 84; // "T"
+const int comSyn = 83; // "T"
 
-const unsigned long maxRunTime = 12000; // 2 min
+const unsigned long maxRunTime = 120000; // 2 min
 unsigned long startTime = 0;
 int incomingByte = 0;
 
@@ -61,6 +62,9 @@ void loop() {
           sendTemp();
           Serial.println("A");
           delay(300); // rate limiting
+          break;
+        case comSyn:
+          Serial.println("A");
           break;
     }
   }
