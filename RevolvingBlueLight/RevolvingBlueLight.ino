@@ -53,7 +53,7 @@ void loop() {
           break;
         case comFlash:
           on();
-          delay(1000);
+          delay(1500);
           off();
           Serial.println("A");
           delay(300); // rate limiting
@@ -77,6 +77,7 @@ void loop() {
 void on() {
   startTime = millis();
   digitalWrite(outPinMotor, HIGH);
+  delay(500); // delay to provide full power to get the motor started
   digitalWrite(outPinLed, HIGH);
 }
 
